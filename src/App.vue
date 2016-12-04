@@ -40,7 +40,6 @@ export default {
   data () {
     return {
       list: List,
-      n: [],
       nodeData: ''
     }
   },
@@ -105,14 +104,16 @@ li {
 a {
   color: #42b983;
 }
-
+.meow{
+  background: red;
+}
 .node{
   background: #3AB882;
   padding: 5px;
   width: 75px;
   height: 75px;
   margin: 20px;
-  line-height: 50px;
+  line-height: 75px;
   color: white;
   font-weight: bold;
   font-size: 1em;

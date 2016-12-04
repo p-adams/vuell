@@ -49,6 +49,9 @@ class List{
     if(!this.head) this.head = new Node(data, null)
     else this.head = this.head.pushBack(this.head, data);
   }
+  pop(){
+     this.head = this.head.next
+  }
   print(){
   	this.head ? this.head.print(this.head) : null
   }
@@ -61,9 +64,5 @@ class List{
     }
   }
 }
-
-
-
 var ll = new List()
-
 export default ll

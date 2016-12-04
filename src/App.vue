@@ -15,6 +15,7 @@
            ref="p">
     <el-button type="primary" @click="push" size="mini">add</el-button>
     <el-button type="primary" @click="pushBack" size="mini">addback</el-button>
+     <el-button type="primary" @click="rf" size="large">remove from front</el-button>
     <div v-if="!show">
       {{size}}
      <ul>
@@ -51,6 +52,9 @@ export default {
       List.pushBack(this.nodeData) 
       this.$refs.p.focus()
       this.nodeData = ''
+    },
+    rf(){
+      List.pop()
     }
   },
   computed:{

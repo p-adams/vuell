@@ -19,8 +19,9 @@
     <div v-if="!show">
       {{size}}
      <ul>
+        head ->
           <li v-for="node in nodes" :class="{node: notEmpty}">
-           {{node}}
+            {{node === null ? 'null' : node}}
           </li>
       </ul>
     </div>
@@ -39,6 +40,7 @@ export default {
   data () {
     return {
       list: List,
+      n: [],
       nodeData: ''
     }
   },
@@ -49,7 +51,7 @@ export default {
       this.nodeData = ''
     },
     pushBack(){
-      List.pushBack(this.nodeData) 
+      List.pushBack(this.nodeData)
       this.$refs.p.focus()
       this.nodeData = ''
     },
@@ -62,7 +64,7 @@ export default {
       return List.size()
     },
     nodes(){
-      return  flatten(List)
+      return flatten(List)
     },
     show(){
         if(List.size()===0) return true
@@ -107,13 +109,13 @@ a {
 .node{
   background: #3AB882;
   padding: 5px;
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   margin: 20px;
-  line-height: 100px;
+  line-height: 50px;
   color: white;
   font-weight: bold;
-  font-size: 3em;
+  font-size: 1em;
   text-align: center;
 }
 

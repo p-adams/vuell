@@ -17,6 +17,20 @@ class Node{
     	return 1 + this.next.size()
     }
   }
+  pushBack(head, data){
+     if(head==null){
+        return new Node(data, null)
+    }
+    else{
+        if(head.next===null){
+            head.next = new Node(data, null)
+        }
+        else{
+            this.pushBack(head.next, data)
+        }
+    }
+    return head;
+  }
 }
 
 class List{
@@ -30,6 +44,10 @@ class List{
         node.next = this.head
         this.head = node
     }
+  }
+  pushBack(data){
+    if(!this.head) this.head = new Node(data, null)
+    else this.head = this.head.pushBack(this.head, data);
   }
   print(){
   	this.head ? this.head.print(this.head) : null

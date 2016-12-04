@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    {{list}}
     <div>
       <h1 id="title">Vuell</h1>
       <h4>Visual Linked List Demonstration</h4>
@@ -10,18 +11,20 @@
     </div>
     <input type="text"
            v-model="nodeData"
-           @keyup.enter="push"
+           @keyup.enter="p"
            placeholder="enter data"
            ref="p">
-    <el-button type="primary" @click="push" size="mini">add</el-button>
+    <el-button type="primary" @click="p" size="mini">add</el-button>
+    <el-button type="primary" @click="pushBack" size="mini">addback</el-button>
     <div v-if="nodes.length > 0">
       {{size}}
-      <ul class="flex-container row-reverse">
-          <li class="flex-item" v-for="node in nodes">
+      <ul >
+          <li  v-for="node in nodes">
             {{node.data}}
           </li>
       </ul>
     </div>
+    {{show}}
   </div>
 </template>
 
@@ -32,6 +35,9 @@ export default {
   mounted(){
     this.$refs.p.focus()
   },
+  updated(){
+
+  },
   data () {
     return {
       list: List,
@@ -40,9 +46,20 @@ export default {
     }
   },
   methods:{
-    push(){
+    p(){
       List.push(this.nodeData)
       for(let key in this.list){
+        if(this.list.hasOwnProperty(key)){
+          this.nodes.push(this.list[key])
+        }
+      }
+      this.$refs.p.focus()
+      this.nodeData = ''
+    },
+    pushBack(){
+      console.log(this.nodeData)
+      List.pushBack(this.nodeData)
+       for(let key in this.list){
         if(this.list.hasOwnProperty(key)){
           this.nodes.push(this.list[key])
         }
@@ -54,6 +71,9 @@ export default {
   computed:{
     size(){
       return List.size()
+    },
+    show(){
+      return this.nodes
     }
   }
 }

@@ -8,6 +8,7 @@
     <el-row :gutter="20">
       <el-col :span="6">
         <h4>add to linked list</h4>
+        {{addVal}}
         <div class="grid-content bg-purple">
          <el-form :inline="true" class="demo-form-inline">
           <el-form-item>
@@ -20,7 +21,9 @@
             </el-select>
            <el-form-item>
             <el-form-item>
-            <el-input size="small"></el-input>
+            <el-input size="small" placeholder="enter data"></el-input>
+            <el-input v-if="posDisplay" size="small" placeholder="enter position"></el-input>
+            <el-button type="">Add</el-button>
             </el-form-item>
         </el-form>
       </div>
@@ -57,7 +60,9 @@
               </el-select>
             <el-form-item>
               <el-form-item>
-              <el-input size="small"></el-input>
+              <el-input size="small" placeholder="enter data"></el-input>
+              <el-input v-if="posDisplay" size="small" placeholder="enter position"></el-input>
+              <el-button type="">search</el-button>
               </el-form-item>
           </el-form>
        </div>
@@ -77,21 +82,23 @@
               </el-select>
             <el-form-item>
               <el-form-item>
-              <el-input size="small"></el-input>
+              <el-input size="small" placeholder="enter data"></el-input>
+              <el-input v-if="posDisplay" size="small" placeholder="enter position"></el-input>
+              <el-button type="">remove</el-button>
               </el-form-item>
           </el-form>
         </div>
       </el-col>
     </el-row>
 
-    <input type="text"
+    <!--<input type="text"
            v-model="nodeData"
            @keyup.enter="push"
            placeholder="enter data"
            ref="p">
     <el-button type="primary" @click="push" size="mini">add</el-button>
     <el-button type="primary" @click="pushBack" size="mini">addback</el-button>
-     <el-button type="primary" @click="rf" size="large">remove from front</el-button>
+     <el-button type="primary" @click="rf" size="large">remove from front</el-button>-->
      <div v-if="show">
         <h2>[ Empty linked list ]</h2>
         <h4>create some nodes!</h4>
@@ -115,7 +122,7 @@ import flatten from 'flat'
 export default {
   name: 'app',
   mounted(){
-    this.$refs.p.focus()
+    //this.$refs.addNodes.focus()
   },
   data () {
     return {
@@ -179,6 +186,10 @@ export default {
     },
     notEmpty(){
       if(List.size() > 0) return true
+      else return false
+    },
+    posDisplay(){
+      if(this.addVal === 'add3' || this.srcVal === 'src4' || this.remVal === 'rem3') return true
       else return false
     }
   }

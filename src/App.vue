@@ -11,7 +11,7 @@
         <div class="grid-content bg-purple">
          <el-form :inline="true" class="demo-form-inline">
           <el-form-item>
-           <el-select v-model="addVal" placeholder="Select">
+           <el-select v-model="addVal" placeholder="Select" @change="addSel">
               <el-option
                 v-for="op in add"
                 :label="op.label"
@@ -20,9 +20,9 @@
             </el-select>
            <el-form-item>
             <el-form-item>
-            <el-input size="small" placeholder="enter data"></el-input>
-            <el-input v-if="addPos" size="small" placeholder="enter position"></el-input>
-            <el-button type="">Add</el-button>
+            <el-input size="small" v-model="av" placeholder="enter data"></el-input>
+            <el-input v-if="addPos" v-model="ap" size="small" placeholder="enter position"></el-input>
+            <el-button type="text" :disabled="av.length===0">Add</el-button>
             </el-form-item>
         </el-form>
       </div>
@@ -33,7 +33,7 @@
         <div class="grid-content bg-purple">
            <el-form :inline="true" class="demo-form-inline">
             <el-form-item>
-            <el-select v-model="swapVal" placeholder="Select">
+            <el-select v-model="swapVal" placeholder="Select" @change="swapSel">
                 <el-option
                   v-for="op in swap"
                   :label="op.label"
@@ -41,7 +41,7 @@
                 </el-option>   
               </el-select>
             <el-form-item>
-            <el-button type="">swap</el-button>
+            <el-button type="text">swap</el-button>
           </el-form>
         </div>
       </el-col>
@@ -60,9 +60,9 @@
               </el-select>
             <el-form-item>
               <el-form-item>
-              <el-input size="small" placeholder="enter data"></el-input>
-              <el-input v-if="srcPos" size="small" placeholder="enter position"></el-input>
-              <el-button type="">search</el-button>
+              <el-input v-if="src" size="small"  v-model="sv" placeholder="enter data"></el-input>
+              <el-input v-if="srcPos" v-model="sp" size="small" placeholder="enter position"></el-input>
+              <el-button type="text">search</el-button>
               </el-form-item>
           </el-form>
        </div>
@@ -82,9 +82,9 @@
               </el-select>
             <el-form-item>
               <el-form-item>
-              <el-input size="small" placeholder="enter data"></el-input>
-              <el-input v-if="remPos" size="small" placeholder="enter position"></el-input>
-              <el-button type="">remove</el-button>
+              <el-input size="small" v-model="rv" placeholder="enter data"></el-input>
+              <el-input v-if="remPos" v-model="rp" size="small" placeholder="enter position"></el-input>
+              <el-button type="text" :disabled="rv.length===0">remove</el-button>
               </el-form-item>
           </el-form>
         </div>
@@ -152,7 +152,13 @@ export default {
       remVal: '',
       swapVal: '',
       srcVal: '',
-      nodeData: ''
+      nodeData: '',
+      av: '',
+      ap: '',
+      sv: '',
+      sp: '',
+      rv: '',
+      rp: ''
     }
   },
   methods:{
@@ -168,6 +174,39 @@ export default {
     },
     rf(){
       List.pop()
+    },
+    addSel(){
+        switch(this.addVal){
+          case "add1":
+            console.log('add to front')
+            break
+          case "add2":
+            console.log('add to back')
+            break
+          case "add3":
+            console.log('insert at nth')
+            break
+          default:
+            return
+      }
+    },
+      swapSel(){
+        switch(this.swapVal){
+          case "swap1":
+            console.log('swap first two nodes')
+            break
+          case "swap2":
+            console.log('swap last two nodes')
+            break
+          case "swap3":
+            console.log('swap every pair')
+            break
+          case "swap4":
+            console.log('reverse the list')
+            break
+          default:
+            return
+      }
     }
   },
   computed:{
@@ -194,6 +233,10 @@ export default {
     },
     remPos(){
         return this.remVal === 'rem3'? true: false
+    },
+    src(){
+        if(this.srcVal === 'src1' || this.srcVal === 'src4') return true
+        return false
     }
   }
 }

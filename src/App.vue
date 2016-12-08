@@ -4,6 +4,7 @@
       <h1 id="title">Vuell</h1>
       <h4 id="sub">Visual Linked List Demonstration</h4>
     </el-menu>
+    {{opr}}
     <h2>Choose a linked list operation</h2>
     <el-row :gutter="20">
       <el-col :span="6">
@@ -22,7 +23,7 @@
             <el-form-item>
             <el-input size="small" v-model="av" placeholder="enter data"></el-input>
             <el-input v-if="addPos" v-model="ap" size="small" placeholder="enter position"></el-input>
-            <el-button type="text" :disabled="av.length===0">Add</el-button>
+            <el-button type="text" @click="addToLL" :disabled="av.length===0">Add</el-button>
             </el-form-item>
         </el-form>
       </div>
@@ -51,7 +52,7 @@
        <div class="grid-content bg-purple">
           <el-form :inline="true" class="demo-form-inline">
             <el-form-item>
-            <el-select v-model="srcVal" placeholder="Select">
+            <el-select v-model="srcVal" placeholder="Select" @change="srcSel">
                 <el-option
                   v-for="op in search"
                   :label="op.label"
@@ -73,7 +74,7 @@
         <div class="grid-content bg-purple">
            <el-form :inline="true" class="demo-form-inline">
             <el-form-item>
-            <el-select v-model="remVal" placeholder="Select">
+            <el-select v-model="remVal" @change="rmvSel" placeholder="Select">
                 <el-option
                   v-for="op in remove"
                   :label="op.label"
@@ -158,7 +159,8 @@ export default {
       sv: '',
       sp: '',
       rv: '',
-      rp: ''
+      rp: '',
+      opr: ''
     }
   },
   methods:{
@@ -175,16 +177,31 @@ export default {
     rf(){
       List.pop()
     },
+    addToLL(){
+      var data = this.av
+      var pos = this.ap
+      if(this.opr==='addToFront'){
+        List.push(data)
+      }
+      else if(this.opr === 'addToBack'){
+        List.pushBack(data)
+      }
+      else{
+        console.log('add at Nth')
+      }
+      this.av = ''
+      this.pos = ''
+    },
     addSel(){
         switch(this.addVal){
           case "add1":
-            console.log('add to front')
+            this.opr = "addToFront"
             break
           case "add2":
-            console.log('add to back')
+            this.opr = "addToBack"
             break
           case "add3":
-            console.log('insert at nth')
+            this.opr = "insertNth"
             break
           default:
             return
@@ -206,8 +223,46 @@ export default {
             break
           default:
             return
+        }
+      },
+      srcSel(){
+        switch(this.srcVal){
+          case "src1":
+            console.log('count occur')
+            break
+          case "src2":
+            console.log('smallest')
+            break
+          case "src3":
+            console.log('largest')
+            break
+          case "src4":
+            console.log('find at nth')
+            break
+          case "src5":
+            console.log('sum of elements')
+          default:
+            return
+        }
+      },
+      rmvSel(){
+        switch(this.remVal){
+          case "rem1":
+            console.log('remove front')
+            break
+          case "rem2":
+            console.log('remove back')
+            break
+          case "rem3":
+            console.log('remove at nth')
+            break
+          case "rem4":
+            console.log('remove duplicates')
+            break
+          default:
+            return
+        }
       }
-    }
   },
   computed:{
     size(){

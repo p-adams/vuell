@@ -187,10 +187,10 @@ export default {
         List.pushBack(data)
       }
       else{
-        console.log('add at Nth')
+        List.insertNth(data, pos)
       }
       this.av = ''
-      this.pos = ''
+      this.ap = ''
     },
     addSel(){
         switch(this.addVal){

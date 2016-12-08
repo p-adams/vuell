@@ -31,6 +31,15 @@ class Node{
     }
     return head;
   }
+  insertNth(head, data, pos){
+    if(head===null || pos===0){
+      var node = new Node(data, null)
+      node.next = head
+      return node
+    }
+    head.next = this.insertNth(head.next, data, pos-1)
+    return head
+  }
 }
 
 class List{
@@ -48,6 +57,12 @@ class List{
   pushBack(data){
     if(!this.head) this.head = new Node(data, null)
     else this.head = this.head.pushBack(this.head, data);
+  }
+  insertNth(data, pos){
+    if(this.head){
+      this.head = this.head.insertNth(this.head, data, pos)
+    }
+    else this.head = new Node(data, null)
   }
   pop(){
      this.head = this.head.next

@@ -8,7 +8,6 @@
     <el-row :gutter="20">
       <el-col :span="6">
         <h4>add to linked list</h4>
-        {{addVal}}
         <div class="grid-content bg-purple">
          <el-form :inline="true" class="demo-form-inline">
           <el-form-item>
@@ -22,7 +21,7 @@
            <el-form-item>
             <el-form-item>
             <el-input size="small" placeholder="enter data"></el-input>
-            <el-input v-if="posDisplay" size="small" placeholder="enter position"></el-input>
+            <el-input v-if="addPos" size="small" placeholder="enter position"></el-input>
             <el-button type="">Add</el-button>
             </el-form-item>
         </el-form>
@@ -42,6 +41,7 @@
                 </el-option>   
               </el-select>
             <el-form-item>
+            <el-button type="">swap</el-button>
           </el-form>
         </div>
       </el-col>
@@ -61,7 +61,7 @@
             <el-form-item>
               <el-form-item>
               <el-input size="small" placeholder="enter data"></el-input>
-              <el-input v-if="posDisplay" size="small" placeholder="enter position"></el-input>
+              <el-input v-if="srcPos" size="small" placeholder="enter position"></el-input>
               <el-button type="">search</el-button>
               </el-form-item>
           </el-form>
@@ -83,7 +83,7 @@
             <el-form-item>
               <el-form-item>
               <el-input size="small" placeholder="enter data"></el-input>
-              <el-input v-if="posDisplay" size="small" placeholder="enter position"></el-input>
+              <el-input v-if="remPos" size="small" placeholder="enter position"></el-input>
               <el-button type="">remove</el-button>
               </el-form-item>
           </el-form>
@@ -121,9 +121,6 @@ import flatten from 'flat'
 
 export default {
   name: 'app',
-  mounted(){
-    //this.$refs.addNodes.focus()
-  },
   data () {
     return {
       list: List,
@@ -188,9 +185,15 @@ export default {
       if(List.size() > 0) return true
       else return false
     },
-    posDisplay(){
-      if(this.addVal === 'add3' || this.srcVal === 'src4' || this.remVal === 'rem3') return true
-      else return false
+    addPos(){
+        return this.addVal === 'add3' ? true : false
+  
+    },
+    srcPos(){
+        return this.srcVal === 'src4' ? true: false
+    },
+    remPos(){
+        return this.remVal === 'rem3'? true: false
     }
   }
 }

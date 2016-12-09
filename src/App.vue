@@ -268,7 +268,7 @@ export default {
           List.removeNth(this.rp)
         }
         else if(this.opr==="removeDuplicates"){
-          List.removeDuplicates
+          List.removeDuplicates()
         }
         else{
           List.removeByData(this.rv)
@@ -318,7 +318,7 @@ export default {
         return this.srcVal === 'src4' ? true: false
     },
     remPos(){
-        return this.remVal === 'rem3'? true: false
+        return this.remVal === 'rem3' || this.remVal === 'rem5' ? true: false
     },
     src(){
         if(this.srcVal === 'src1' || this.srcVal === 'src4') return true

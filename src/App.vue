@@ -42,7 +42,7 @@
                 </el-option>   
               </el-select>
             <el-form-item>
-            <el-button type="text">swap</el-button>
+            <el-button type="text" @click="swapLL">swap</el-button>
           </el-form>
         </div>
       </el-col>
@@ -91,15 +91,6 @@
         </div>
       </el-col>
     </el-row>
-
-    <!--<input type="text"
-           v-model="nodeData"
-           @keyup.enter="push"
-           placeholder="enter data"
-           ref="p">
-    <el-button type="primary" @click="push" size="mini">add</el-button>
-    <el-button type="primary" @click="pushBack" size="mini">addback</el-button>
-     <el-button type="primary" @click="rf" size="large">remove from front</el-button>-->
      <div v-if="show">
         <h2>[ Empty linked list ]</h2>
         <h4>create some nodes!</h4>
@@ -164,19 +155,6 @@ export default {
     }
   },
   methods:{
-    push(){
-      List.push(this.nodeData)
-      this.$refs.p.focus()
-      this.nodeData = ''
-    },
-    pushBack(){
-      List.pushBack(this.nodeData)
-      this.$refs.p.focus()
-      this.nodeData = ''
-    },
-    rf(){
-      List.pop()
-    },
     addToLL(){
       var data = this.av
       var pos = this.ap
@@ -207,19 +185,33 @@ export default {
             return
       }
     },
-      swapSel(){
+    swapLL(){
+      if(this.opr === "swapFirst"){
+          List.swapFirst()
+      }
+      else if(this.opr === "swapLast"){
+          List.swapLastTwo()
+      }
+      else if(this.opr === "swapPairs"){
+          List.swapPairs()
+      }
+      else{
+          List.reverse()
+      }
+    },
+    swapSel(){
         switch(this.swapVal){
           case "swap1":
-            console.log('swap first two nodes')
+            this.opr = "swapFirst"
             break
           case "swap2":
-            console.log('swap last two nodes')
+            this.opr = "swapLast"
             break
           case "swap3":
-            console.log('swap every pair')
+            this.opr = "swapPairs"
             break
           case "swap4":
-            console.log('reverse the list')
+            this.opr = "reverseList"
             break
           default:
             return

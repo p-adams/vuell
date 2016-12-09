@@ -32,13 +32,38 @@ class Node{
     return head;
   }
   insertNth(head, data, pos){
-    if(head===null || pos===0){
-      var node = new Node(data, null)
+    var node = new Node(data, null)
+    if((pos===0)||(head===null)){
       node.next = head
       return node
     }
     head.next = this.insertNth(head.next, data, pos-1)
     return head
+  }
+  swapLastTwo(){
+    if(this.next.next.next === null){
+      var temp = this.next.next
+      this.next.next.next = this.next
+      this.next.next = null
+      this.next = temp
+    }
+    else this.head.swapLastTwo()
+  }
+  swapPairs(head){
+    if(head===null||head.next===null) return head
+    else{
+        var newHead = head.next
+        head.next = this.swapPairs(head.next.next)
+        newHead.next = head
+        return newHead
+    }
+  }
+  reverse(head){
+    if(head === null || head.next===null) return head
+    let remaining = this.reverse(head.next)
+    head.next.next = head
+    head.next = null
+    return remaining
   }
 }
 
@@ -59,10 +84,36 @@ class List{
     else this.head = this.head.pushBack(this.head, data);
   }
   insertNth(data, pos){
+    console.log('list, ', pos)
+    if(!this.head) this.head = new Node(data, this.head)
+    this.head = this.head.insertNth(this.head, data, pos)
+  }
+  swapFirst(){
     if(this.head){
-      this.head = this.head.insertNth(this.head, data, pos)
+      var temp = this.head.next
+      var rem = temp.next
+      temp.next = this.head
+      this.head.next = rem
+      this.head = temp
     }
-    else this.head = new Node(data, null)
+  }
+  swapLastTwo(){
+    if(!this.head || !this.head.next) return
+    if(this.head.next.next === null){
+      var temp = this.head.next
+      this.head.next.next = this.head
+      this.head.next = null
+      this.head = temp
+    }
+    else this.head.swapLastTwo()
+  }
+  swapPairs(){
+    if(!this.head) return
+    this.head = this.head.swapPairs(this.head)
+  }
+  reverse(){
+    if(!this.head) return
+    this.head = this.head.reverse(this.head)
   }
   pop(){
      this.head = this.head.next
@@ -79,5 +130,8 @@ class List{
     }
   }
 }
+
+
+
 var ll = new List()
 export default ll

@@ -7,11 +7,11 @@
     <h2>Choose a linked list operation</h2>
     <el-row :gutter="20">
       <el-col :span="6">
-        <h4>add to linked list</h4>
+        <h5>add to linked list</h5>
         <div class="grid-content bg-purple">
          <el-form :inline="true" class="demo-form-inline">
           <el-form-item>
-           <el-select v-model="addVal" placeholder="Select" @change="addSel">
+           <el-select v-model="addVal" placeholder="Select">
               <el-option
                 v-for="op in add"
                 :label="op.label"
@@ -29,11 +29,11 @@
       </el-col>
 
       <el-col :span="6">
-        <h4>alter linked list</h4>
+        <h5>alter linked list</h5>
         <div class="grid-content bg-purple">
            <el-form :inline="true" class="demo-form-inline">
             <el-form-item>
-            <el-select v-model="swapVal" placeholder="Select" @change="swapSel">
+            <el-select v-model="swapVal" placeholder="Select">
                 <el-option
                   v-for="op in swap"
                   :label="op.label"
@@ -47,11 +47,11 @@
       </el-col>
 
      <el-col :span="6">
-       <h4>search linked list</h4>
+       <h5>search linked list</h5>
        <div class="grid-content bg-purple">
           <el-form :inline="true" class="demo-form-inline">
             <el-form-item>
-            <el-select v-model="srcVal" placeholder="Select" @change="srcSel">
+            <el-select v-model="srcVal" placeholder="Select">
                 <el-option
                   v-for="op in search"
                   :label="op.label"
@@ -69,11 +69,11 @@
      </el-col>
 
       <el-col :span="6">
-        <h4>remove from linked list</h4>
+        <h5>remove from linked list</h5>
         <div class="grid-content bg-purple">
            <el-form :inline="true" class="demo-form-inline">
             <el-form-item>
-            <el-select v-model="remVal" @change="rmvSel" placeholder="Select">
+            <el-select v-model="remVal" placeholder="Select">
                 <el-option
                   v-for="op in remove"
                   :label="op.label"
@@ -83,7 +83,6 @@
             <el-form-item>
               <el-form-item>
               <el-input v-if="remPos" size="small" v-model="rv" placeholder="enter data"></el-input>
-              <el-input v-if="remPos" v-model.number="rp" size="small" placeholder="enter position"></el-input>
               <el-button type="text" @click="remLL">remove</el-button>
               </el-form-item>
           </el-form>
@@ -100,10 +99,9 @@
     </div>
 
     <h6 v-show="size > 0" id="size">Linked list contains: {{size}} {{size === 1 ? 'node' : 'nodes'}}</h6>
-
     <div v-if="!show">
      <ul id="list1">
-        head ->
+        <h4>head<i class="el-icon-caret-right"></i></h2>
           <li v-for="node in nodes" :class="{node: notEmpty}">
             {{node === null ? 'null' : node}}
           </li>
@@ -129,9 +127,9 @@ export default {
       remove:[
           {value: 'rem1', label: 'remove node from front'},
           {value: 'rem2', label: 'remove node from back'},
-          {value: 'rem3', label: 'remove node at nth position'},
           {value: 'rem4', label: 'remove duplicate nodes'},
-          {value: 'rem5', label: 'remove node by data'}
+          {value: 'rem5', label: 'remove node by data'},
+          {value: 'rem6', label: 'remove all nodes'}
         ],
       swap:[
           {value: 'swap1', label: 'swap first two nodes'},
@@ -157,18 +155,18 @@ export default {
       sv: '',
       sp: '',
       rv: '',
-      rp: '',
-      opr: ''
     }
   },
   methods:{
     addToLL(){
       var data = this.av
       var pos = this.ap
-      if(this.opr==='addToFront'){
+      var val = this.addVal
+      this.searchNode = false
+      if(val === "add1"){
         List.push(data)
       }
-      else if(this.opr === 'addToBack'){
+      else if(val === 'add2'){
         List.pushBack(data)
       }
       else{
@@ -177,123 +175,60 @@ export default {
       this.av = ''
       this.ap = ''
     },
-    addSel(){
-        switch(this.addVal){
-          case "add1":
-            this.opr = "addToFront"
-            break
-          case "add2":
-            this.opr = "addToBack"
-            break
-          case "add3":
-            this.opr = "insertNth"
-            break
-          default:
-            return
-      }
-    },
     swapLL(){
-      if(this.opr === "swapFirst"){
+      this.searchNode = false
+      var val = this.swapVal
+      if(val === "swap1"){
           List.swapFirst()
       }
-      else if(this.opr === "swapLast"){
+      else if(val === "swap2"){
           List.swapLastTwo()
       }
-      else if(this.opr === "swapPairs"){
+      else if(val === "swap3"){
           List.swapPairs()
       }
       else{
           List.reverse()
       }
     },
-    swapSel(){
-        switch(this.swapVal){
-          case "swap1":
-            this.opr = "swapFirst"
-            break
-          case "swap2":
-            this.opr = "swapLast"
-            break
-          case "swap3":
-            this.opr = "swapPairs"
-            break
-          case "swap4":
-            this.opr = "reverseList"
-            break
-          default:
-            return
-      }
-    },
     srcLL(){
+      var val = this.srcVal
       this.searchNode = true
-      if(this.opr==="countO"){
+      if(val === "src1"){
         this.srcNode = List.countO(this.sv)
       }
-      else if(this.opr==="smallest"){
+      else if(val === "src2"){
         this.srcNode = List.smallest()
       }
-      else if(this.opr==="largest"){
+      else if(val === "src3"){
         this.srcNode = List.largest()
       }
       else{
         this.srcNode = List.getNth(this.sp)
       }
+      this.sv = ''
+      this.sp = ''
     },
-    srcSel(){
-        switch(this.srcVal){
-          case "src1":
-            this.opr = "countO"
-            break
-          case "src2":
-            this.opr = "smallest"
-            break
-          case "src3":
-            this.opr = "largest"
-            break
-          case "src4":
-            this.opr = "getNth"
-            break
-          default:
-            return
-        }
-      },
-      remLL(){
-        if(this.opr==="removeFront"){
-          List.removeFront()
-        }
-        else if(this.opr==="removeBack"){
-          List.removeBack()
-        }
-        else if(this.opr==="removeNth"){
-          List.removeNth(this.rp)
-        }
-        else if(this.opr==="removeDuplicates"){
-          List.removeDuplicates()
-        }
-        else{
-          List.removeByData(this.rv)
-        }
-      },
-      rmvSel(){
-        switch(this.remVal){
-          case "rem1":
-            this.opr = "removeFront"
-            break
-          case "rem2":
-            this.opr = "removeBack"
-            break
-          case "rem3":
-            this.opr = "removeNth"
-            break
-          case "rem4":
-            this.opr = "removeDuplicates"
-            break
-          case "rem5":
-            this.opr = "removeByData"
-          default:
-            return
-        }
+  
+    remLL(){
+      this.searchNode = false
+      var val = this.remVal
+      if(val === "rem1"){
+        List.removeFront()
       }
+      else if(val === "rem2"){
+        List.removeBack()
+      }
+      else if(val === "rem4"){
+        List.removeDuplicates()
+      }
+      else if(val === "rem5"){
+        List.removeByData(this.rv)
+      }
+      else if(val === "rem6"){
+        List.removeAll()
+      }
+    }
   },
   computed:{
     size(){
@@ -325,16 +260,16 @@ export default {
         return false
     },
     result(){
-      if(this.opr==="countO"){
+      if(this.srcVal==="src1"){
         return '#nodes containing ' + this.sv
       }
-      else if(this.opr==="smallest"){
+      else if(this.srcVal==="src2"){
         return 'smallest value in linked list '
       }
-      else if(this.opr==="largest"){
+      else if(this.srcVal==="src3"){
         return 'largest value in the linked list'
       }
-      else if(this.opr==="getNth"){
+      else if(this.srcVal==="src4"){
         return 'Element an nth position is '
       }
     }
@@ -417,3 +352,4 @@ a {
   }
 
 </style>
+

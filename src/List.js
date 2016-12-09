@@ -113,24 +113,18 @@ class Node{
     return head
   }
   removeDuplicates(head){
-    if(!head)return
-    else{
-        if(head.next){
-            if(head.data===head.next.data){
-                let next = head.next.next
-                head.next = next
-                this.removeDuplicates(head)
-                return head
-            }
-            else{
-                head = head.next
-                this.removeDuplicates(head)
-                return head
-            }
-        }
-    }
-  }
-  removeByData(data){
+    if (head == null) return null;
+      head.next = this.removeDuplicates(head.next);
+      if (head.next) {
+        if (head.data == head.next.data) {
+          var temp = head.next;
+          head.next = null;
+          return temp;
+        }		
+      }
+      return head;
+}
+removeByData(data){
     if (data == this.data) {
 		var temp = this.next;
 		this.next = null;
@@ -216,8 +210,7 @@ class List{
     this.head = this.head.removeNth(this.head, index) 
   }
   removeDuplicates(){
-    if(!this.head) return
-    this.head = this.head.removeDuplicates(this.head)
+    if(this.head) this.head = this.head.removeDuplicates(this.head)
   }
   removeByData(data){
     if (this.head) this.head = this.head.removeByData(data);

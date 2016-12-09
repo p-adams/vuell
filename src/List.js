@@ -65,6 +65,77 @@ class Node{
     head.next = null
     return remaining
   }
+  countO(head, data){
+    if(!head) return 0
+    if(head.data === data) return 1 + this.countO(head.next, data)
+    return this.countO(head.next, data)
+  }
+  smallest(){
+    if(!this.next) return this.data
+    var smallest = this.next.smallest()
+    if(smallest < this.data){
+      return smallest
+    }
+    return this.data
+  }
+  largest(){
+    if(!this.next) return this.data
+    var largest = this.next.largest()
+    if(largest > this.data){
+      return largest
+    }
+    return this.data
+  }
+  getNth(head, index, start){
+    if(head===null) return 0
+    if(start===index){
+        return head.data
+    }
+    else{
+        start += 1
+        return this.getNth(head.next, index, start)
+    }
+  }
+  removeBack(head){
+    if(head.next===null){
+      head = null
+      return head
+    }
+    this.next = this.removeBack(head.next)
+    return head
+  }
+  removeNth(head, index){
+    if(index === 0){
+        head = head.next
+        return head
+    }
+    head.next = this.removeNth(head.next, index-1)
+    return head
+  }
+  removeDuplicates(){
+     if(head.next){
+        if(head.data===head.next.data){
+            let next = head.next.next
+            head.next = next
+            this.removeDups(head)
+            return head
+        }
+        else{
+            head = head.next
+            this.removeDups(head)
+            return head
+        }
+    }
+  }
+  removeByData(data){
+    if (data == this.data) {
+		var temp = this.next;
+		this.next = null;
+		return temp;
+	}
+	else if (this.next) this.next = this.next.removeByData(data);
+	return this;
+  }
 }
 
 class List{
@@ -84,7 +155,6 @@ class List{
     else this.head = this.head.pushBack(this.head, data);
   }
   insertNth(data, pos){
-    console.log('list, ', pos)
     if(!this.head) this.head = new Node(data, this.head)
     this.head = this.head.insertNth(this.head, data, pos)
   }
@@ -115,8 +185,39 @@ class List{
     if(!this.head) return
     this.head = this.head.reverse(this.head)
   }
-  pop(){
-     this.head = this.head.next
+  countO(data){
+    if(this.head) return this.head.countO(this.head, data)
+  }
+  smallest(){
+    if(!this.head) return 0
+    else return this.head.smallest()
+  }
+  largest(){
+    if(!this.head) return 0
+    else return this.head.largest()
+  }
+  getNth(idx){
+    var start = 0
+    if(this.head) return this.head.getNth(this.head, idx, start)
+  }
+  removeFront(){
+    if(!this.head) return
+    this.head = this.head.next
+  }
+  removeBack(){
+    if(!this.head) return
+    this.head = this.head.removeBack(this.head)
+  }
+  removeNth(index){
+    if(!this.head) return
+    this.head = this.head.removeNth(this.head, index) 
+  }
+  removeDuplicates(){
+    if(!this.head) return
+    this.head = this.head.removeDups(this.head)
+  }
+  removeByData(data){
+    if (this.head) this.head = this.head.removeByData(data);
   }
   print(){
   	this.head ? this.head.print(this.head) : null
@@ -131,7 +232,15 @@ class List{
   }
 }
 
+/*var l = new List()
+l.push("a")
+l.push("b")
+l.push("c")
+console.log("getNth" , l.getNth(1))*/
 
 
 var ll = new List()
+
+
+
 export default ll

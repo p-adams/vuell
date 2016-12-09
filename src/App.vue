@@ -4,7 +4,6 @@
       <h1 id="title">Vuell</h1>
       <h4 id="sub">Visual Linked List Demonstration</h4>
     </el-menu>
-    {{opr}}
     <h2>Choose a linked list operation</h2>
     <el-row :gutter="20">
       <el-col :span="6">
@@ -62,8 +61,8 @@
             <el-form-item>
               <el-form-item>
               <el-input v-if="src" size="small"  v-model="sv" placeholder="enter data"></el-input>
-              <el-input v-if="srcPos" v-model="sp" size="small" placeholder="enter position"></el-input>
-              <el-button type="text">search</el-button>
+              <el-input v-if="srcPos" v-model.number="sp" size="small" placeholder="enter position"></el-input>
+              <el-button type="text" @click="srcLL">search</el-button>
               </el-form-item>
           </el-form>
        </div>
@@ -83,9 +82,9 @@
               </el-select>
             <el-form-item>
               <el-form-item>
-              <el-input size="small" v-model="rv" placeholder="enter data"></el-input>
-              <el-input v-if="remPos" v-model="rp" size="small" placeholder="enter position"></el-input>
-              <el-button type="text" :disabled="rv.length===0">remove</el-button>
+              <el-input v-if="remPos" size="small" v-model="rv" placeholder="enter data"></el-input>
+              <el-input v-if="remPos" v-model.number="rp" size="small" placeholder="enter position"></el-input>
+              <el-button type="text" @click="remLL">remove</el-button>
               </el-form-item>
           </el-form>
         </div>
@@ -95,8 +94,14 @@
         <h2>[ Empty linked list ]</h2>
         <h4>create some nodes!</h4>
     </div>
+    
+    <div v-if="searchNode">
+        {{result}}: {{srcNode}}
+    </div>
+
+    <h6 v-show="size > 0" id="size">Linked list contains: {{size}} {{size === 1 ? 'node' : 'nodes'}}</h6>
+
     <div v-if="!show">
-      {{size}}
      <ul id="list1">
         head ->
           <li v-for="node in nodes" :class="{node: notEmpty}">
@@ -126,6 +131,7 @@ export default {
           {value: 'rem2', label: 'remove node from back'},
           {value: 'rem3', label: 'remove node at nth position'},
           {value: 'rem4', label: 'remove duplicate nodes'},
+          {value: 'rem5', label: 'remove node by data'}
         ],
       swap:[
           {value: 'swap1', label: 'swap first two nodes'},
@@ -137,14 +143,15 @@ export default {
           {value: 'src1', label: 'count occurances of an element'},
           {value: 'src2', label: 'find smallest element'},
           {value: 'src3', label: 'find largest element'},
-          {value: 'src4', label: 'find element at nth position'},
-          {value: 'src5', label: 'calculate sum of elements'},
+          {value: 'src4', label: 'find element at nth position'}
         ],
       addVal: '',
       remVal: '',
       swapVal: '',
       srcVal: '',
       nodeData: '',
+      searchNode: false,
+      srcNode: '',
       av: '',
       ap: '',
       sv: '',
@@ -215,42 +222,74 @@ export default {
             break
           default:
             return
-        }
-      },
-      srcSel(){
+      }
+    },
+    srcLL(){
+      this.searchNode = true
+      if(this.opr==="countO"){
+        this.srcNode = List.countO(this.sv)
+      }
+      else if(this.opr==="smallest"){
+        this.srcNode = List.smallest()
+      }
+      else if(this.opr==="largest"){
+        this.srcNode = List.largest()
+      }
+      else{
+        this.srcNode = List.getNth(this.sp)
+      }
+    },
+    srcSel(){
         switch(this.srcVal){
           case "src1":
-            console.log('count occur')
+            this.opr = "countO"
             break
           case "src2":
-            console.log('smallest')
+            this.opr = "smallest"
             break
           case "src3":
-            console.log('largest')
+            this.opr = "largest"
             break
           case "src4":
-            console.log('find at nth')
+            this.opr = "getNth"
             break
-          case "src5":
-            console.log('sum of elements')
           default:
             return
+        }
+      },
+      remLL(){
+        if(this.opr==="removeFront"){
+          List.removeFront()
+        }
+        else if(this.opr==="removeBack"){
+          List.removeBack()
+        }
+        else if(this.opr==="removeNth"){
+          List.removeNth(this.rp)
+        }
+        else if(this.opr==="removeDuplicates"){
+          List.removeDuplicates
+        }
+        else{
+          List.removeByData(this.rv)
         }
       },
       rmvSel(){
         switch(this.remVal){
           case "rem1":
-            console.log('remove front')
+            this.opr = "removeFront"
             break
           case "rem2":
-            console.log('remove back')
+            this.opr = "removeBack"
             break
           case "rem3":
-            console.log('remove at nth')
+            this.opr = "removeNth"
             break
           case "rem4":
-            console.log('remove duplicates')
+            this.opr = "removeDuplicates"
             break
+          case "rem5":
+            this.opr = "removeByData"
           default:
             return
         }
@@ -284,6 +323,20 @@ export default {
     src(){
         if(this.srcVal === 'src1' || this.srcVal === 'src4') return true
         return false
+    },
+    result(){
+      if(this.opr==="countO"){
+        return '#nodes containing ' + this.sv
+      }
+      else if(this.opr==="smallest"){
+        return 'smallest value in linked list '
+      }
+      else if(this.opr==="largest"){
+        return 'largest value in the linked list'
+      }
+      else if(this.opr==="getNth"){
+        return 'Element an nth position is '
+      }
     }
   }
 }
@@ -320,8 +373,8 @@ ul#list1 li {
 a {
   color: #42b983;
 }
-.meow{
-  background: red;
+#size{
+  text-align: left;
 }
 .node{
   background: #3AB882;
